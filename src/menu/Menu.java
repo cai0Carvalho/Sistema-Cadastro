@@ -1,4 +1,7 @@
+package menu;
+
 import java.util.Scanner;
+import lib.cadastro.Cadastro;
 
 public class Menu {
     public static void InicialMenu() {

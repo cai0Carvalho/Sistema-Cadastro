@@ -1,4 +1,4 @@
-
+package lib.cadastro;
 
 public class Pet {
     private String nome;
