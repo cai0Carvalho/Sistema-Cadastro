@@ -13,7 +13,7 @@ public class Menu {
         try {
             while (op == 7) {
                 System.out.println("1.Cadastrar novo pet");
-                System.out.println("2.Alterar os dados do pet cadastradoi");
+                System.out.println("2.Alterar os dados do pet cadastrado");
                 System.out.println("3.Deletar um pet cadastrado");
                 System.out.println("4.Listar os pets cadastrados");
                 System.out.println("5.Listar pets por algum critério(idade, nome, raça)");
@@ -41,9 +41,12 @@ public class Menu {
                             break;
                         case 4:
                             System.out.println("4.Listar os pets cadastrados");
+                            
                             break;
                             case 5:
-                            System.out.println("5.Listar pets por algum critério(idade, nome, raça)");
+                            System.out.println("5.Buscar pet por critério(idade, nome, raça)");
+                            buscarMenu.criterioMenu();
+                            break;
                         case 6:
                             System.out.println("6.Sair");
                             op = 0;

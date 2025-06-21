@@ -38,19 +38,19 @@ public class Cadastro {
             System.out.print("sexo 1.Macho 2.Fêmea: ");
             int sexo = scanner.nextInt();
             pet.setSexo(sexo == 1 ? TipoSexo.macho : TipoSexo.femea);
-            
+            scanner.nextLine();
+
             // ENDEREÇO
-            System.out.print("endereço (numero): ");
+            System.out.print("Endereço (número): ");
             String numero = scanner.nextLine();
-            
-            System.out.print("endereco (rua): ");
+
+            System.out.print("Endereço (rua): ");
             String rua = scanner.nextLine();
 
-            System.out.println("endereco (cidade: )");
+            System.out.print("Endereço (cidade): ");
             String cidade = scanner.nextLine();
-
             pet.setEndereco(numero, rua, cidade);
-
+            
             // IDADE
             System.out.print("idade (0 - nao sei): ");
             String idadeStr = scanner.nextLine().replaceAll(",",".");
@@ -62,7 +62,7 @@ public class Cadastro {
             } else if (idade < 1 ){
                 pet.setIdade("0." + (int) (idade *10));
             } else {
-                pet.setIdade(String.format("%.1f", idade));
+                pet.setIdade(String.valueOf(idade));
             }
 
             //PESO
@@ -88,6 +88,7 @@ public class Cadastro {
             } else {
                 pet.setRaca(raca);
             }
+
             System.out.println("Pet cadastrado com sucesso!");
             CriarArquivo(pet); //chamando o metodo para criar o arquivo
 
@@ -96,6 +97,16 @@ public class Cadastro {
             return;
         }
     }
+
+    public static void ListarPets() {
+        File pasta = new File("src\\\\lib\\\\petsCadastrados");
+        if (!pasta.isDirectory()) {
+            System.out.println("A pasta não é um diretório ou não existe.");
+        }
+    }
+
+
+
 
         public static void CriarArquivo(Pet pet) {
             LocalDate hj = LocalDate.now();
@@ -127,15 +138,14 @@ public class Cadastro {
                 String sobrenomeLimpo = pet.getSobrenome().replaceAll("[^a-zA-Z]", "");
 
                 FileWriter writer = new FileWriter(arq);
-                writer.write(nomeLimpo + sobrenomeLimpo + "\n");
+                writer.write(nomeLimpo + " " + sobrenomeLimpo + "\n");
                 writer.write(pet.getTipo() + "\n");
                 writer.write(pet.getSexo() + "\n");
                 writer.write(pet.getEndereco() + "\n");
-                writer.write(pet.getIdade() + "\n");
-                writer.write(pet.getPeso() + "\n");
+                writer.write(pet.getIdade() + " anos " + "\n");
+                writer.write(pet.getPeso() + " Kg" + "\n");
                 writer.write(pet.getRaca() + "\n");
                 writer.close();
-
             } catch (IOException e) {
                 System.out.println("Erro ao criar o arquivo: " + e.getMessage());
             }
