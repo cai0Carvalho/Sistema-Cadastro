@@ -1,13 +1,11 @@
 package menu;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.Scanner;
 
-public class buscarMenu {
-    public static void criterioMenu() {
+import model.FiltroBusca;
+
+public class MenuBusca {
+    public static FiltroBusca menuCriterios() {
         System.out.println("-------------------------------------------------------");
         System.out.println("O tipo de animal é obrigatório para a busca. \nQuais criterios a mais você deseja usar para buscar? ");
         System.out.println("1. Buscar por nome ou sobrenome");
@@ -23,13 +21,19 @@ public class buscarMenu {
         Scanner scanner = new Scanner(System.in);
         int op = scanner.nextInt();
 
+        if(op <1 || op > 9) {
+            System.out.println("Digite uma opção válida entre 1 e 9.");
+            System.exit(0);
+        }
+
         String tipo = "";
         System.out.println("Digite o tipo de pet (Cachorro/Gato):");
         tipo = scanner.next().trim().toLowerCase();
 
-        if(op <1 || op > 9) {
-            System.out.println("Digite uma opção válida entre 1 e 9.");
-            return;
+        while(!tipo.equalsIgnoreCase("cachorro") && !tipo.equalsIgnoreCase("gato")){
+            System.out.println("Digite uma opção válida");
+            System.out.println("Digite o tipo de pet (Cachorro/Gato):");
+            tipo = scanner.next().trim().toLowerCase();
         }
 
         String[] resposta = new String[2];
@@ -38,7 +42,7 @@ public class buscarMenu {
             case 1:
                  scanner.nextLine(); // <-- limpa o buffer do enter anterior
                 System.out.println("Digite o nome ou sobrenome do pet:");
-                resposta[0] = scanner.nextLine().trim(); // <-- agora lê nomes compostos
+                resposta[0] = scanner.nextLine().trim();
                 break;
             case 2:
                 scanner.nextLine(); // limpa buffer
@@ -89,57 +93,7 @@ public class buscarMenu {
             default:
                 break;
         }
-        scanner.close();
-    
-        File pasta = new File("src\\lib\\petsCadastrados");
-        buscarPets(pasta, tipo, resposta, op);
-    }
 
-    private static void buscarPets(File pasta, String tipo, String[] resposta, int op) {
-        if(!pasta.isDirectory()){
-            System.out.println("A pasta não é um diretório ou não existe.");
-            return;
-        }
-        File[] arquivos = pasta.listFiles();
-        if(arquivos == null || arquivos.length == 0) {
-            System.out.println("A pasta não contém arquivos.");
-            return;
-        }
-
-        List<String> petsEncontrados = new java.util.ArrayList<>();
-
-        for (File arquivo : arquivos) {
-            try {
-                List<String> linhas = Files.readAllLines(arquivo.toPath());
-
-                String textoCompleto = String.join(" ", linhas).toLowerCase();
-                String tipoMinusculo = tipo.toLowerCase();
-                String criterio1 = resposta[0] != null ? resposta[0].toLowerCase() : "";
-                String criterio2 = resposta[1] != null ? resposta[1].toLowerCase() : "";
-
-                boolean condicao = switch (op) {
-                    case 1, 2, 3, 4, 5, 6 -> textoCompleto.contains(tipoMinusculo) && textoCompleto.contains(criterio1);
-                    case 7, 8, 9 -> textoCompleto.contains(tipoMinusculo) && textoCompleto.contains(criterio1) && textoCompleto.contains(criterio2);
-                    default -> false;
-                };
-
-                if (condicao) {
-                    petsEncontrados.add(String.join("\n", linhas));
-                }
-
-            } catch (IOException e) {
-                System.out.println("Erro ao ler o arquivo " + arquivo.getName() + ": " + e.getMessage());
-            }
-        }
-        if (petsEncontrados.isEmpty()){
-            System.out.println("Nenhum pet encontrado com os critérios informados.");
-        } else {
-            System.out.println("Pets encontrados:");
-            for (String pet : petsEncontrados) {
-                System.out.println("-------------------------------------------------------------------------");
-                System.out.println(pet);
-                System.out.println("-------------------------------------------------------------------------");
-            }
-        }
+        return new FiltroBusca(tipo, resposta, op);
     }
 }

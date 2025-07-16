@@ -1,10 +1,10 @@
 package app;
 
-import menu.Menu;
+import menu.MenuPrincipal;
 
 public class App {
     public static void main(String[] args) throws Exception {
         // Inicia o menu inicial
-        Menu.InicialMenu();
+        MenuPrincipal.inicialMenu();
     }
 }

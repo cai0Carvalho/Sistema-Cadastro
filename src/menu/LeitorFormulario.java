@@ -1,4 +1,4 @@
-package util;
+package menu;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Quest {
-    public static void Show() {
+public class LeitorFormulario {
+    public static void show() {
         Logger logger = Logger.getLogger("LeitorFormulario");
         
         try{

@@ -1,4 +1,6 @@
-package lib.cadastro;
+package model;
+
+import java.util.Objects;
 
 public class Pet {
     private String nome;
@@ -10,6 +12,44 @@ public class Pet {
     private String idade;
     private TipoPet tipo;
     private TipoSexo sexo; 
+
+    @Override
+    public String toString() {
+        return nome + "\n" +
+            sobrenome + "\n" +
+            tipo + "\n" +
+            sexo + "\n" +
+            endereco + "\n" +
+            idade + " anos\n" +
+            peso + " Kg\n" +
+            raca;
+    }
+
+    /**
+     * Sobrescrevendo os métodos equals() e hashCode() para garantir que
+     * dois objetos Pet sejam considerados iguais quando tiverem os mesmos
+     * valores em seus atributos principais. Isso é essencial para que o
+     * Pet funcione corretamente como chave em coleções como HashMap.
+     */    
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) return true;
+        if(obj == null || getClass()!= obj.getClass()) return false;
+        
+        Pet other = (Pet) obj;
+        return Objects.equals(nome, other.nome) &&
+            Objects.equals(sobrenome, other.sobrenome) &&
+            tipo == other.tipo &&
+            sexo == other.sexo &&
+            Objects.equals(idade, other.idade) &&
+            Objects.equals(peso, other.peso) &&
+            Objects.equals(raca, other.raca);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, sobrenome, tipo, sexo, idade, peso, raca);
+    }
 
     public String getNome() {
         return nome;
@@ -32,12 +72,22 @@ public class Pet {
     public String getEndereco() {
         return endereco;
     }
+    
     public void setEndereco(String numero, String rua, String cidade) {
         if (numero == null || numero.trim().isEmpty()) {
             numero = "nao informado";
         }
         this.endereco = numero + ", " + rua + ", " + cidade;
     }
+
+    public void setEndereco(String enderecoCompleto) {
+        if (enderecoCompleto == null || enderecoCompleto.trim().isEmpty()) {
+            this.endereco = "nao informado";
+        } else {
+            this.endereco = enderecoCompleto;
+        }
+    }
+
     public String getPeso() {
         return peso;
     }

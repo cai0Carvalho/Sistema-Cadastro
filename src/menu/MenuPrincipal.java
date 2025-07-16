@@ -1,10 +1,14 @@
 package menu;
 
 import java.util.Scanner;
-import lib.cadastro.Cadastro;
 
-public class Menu {
-    public static void InicialMenu() {
+import util.AlterarDado;
+import util.BuscarInfo;
+import util.Cadastro;
+import util.DeletarPet;
+
+public class MenuPrincipal {
+    public static void inicialMenu() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Bem-vindo ao Menu inicial!");
         System.out.println("Por favor, escolha uma opção:");
@@ -35,17 +39,19 @@ public class Menu {
                             break;
                         case 2:
                             System.out.println("2.Alterar os dados do pet cadastrado");
+                            AlterarDado.alterarDados();
                             break;
                         case 3:
                             System.out.println("3.Deletar um pet cadastrado");
+                            DeletarPet.deletarPet();
                             break;
                         case 4:
                             System.out.println("4.Listar os pets cadastrados");
-                            
+                            Cadastro.listarPets();
                             break;
                             case 5:
-                            System.out.println("5.Buscar pet por critério(idade, nome, raça)");
-                            buscarMenu.criterioMenu();
+                            System.out.println("5.Listar pet por critério(idade, nome, raça)");
+                            BuscarInfo.inicarBusca();
                             break;
                         case 6:
                             System.out.println("6.Sair");
@@ -58,7 +64,8 @@ public class Menu {
             }
 
         }catch (Exception e) {
-            System.out.println("erro inesperado: " + e.getMessage());
+            System.out.println("erro inesperado: ");
+            e.printStackTrace();
         } finally {
             scanner.close();
 
